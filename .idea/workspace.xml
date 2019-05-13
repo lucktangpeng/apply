@@ -117,7 +117,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/cors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
+            <state relative-caret-position="570">
               <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
             </state>
           </provider>
@@ -185,7 +185,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="360" />
     <option name="y" value="58" />
     <option name="width" value="1385" />
@@ -361,12 +361,12 @@
       <workItem from="1557717401508" duration="10595000" />
       <workItem from="1557750692743" duration="272000" />
       <workItem from="1557750994293" duration="708000" />
-      <workItem from="1557751728889" duration="2633000" />
+      <workItem from="1557751728889" duration="2634000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47586000" />
+    <option name="totallyTimeSpent" value="47587000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -388,7 +388,7 @@
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="1" visible="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Message" order="2" />
       <window_info anchor="bottom" id="Find" order="3" />
-      <window_info anchor="bottom" id="Run" order="4" visible="true" weight="0.3329718" />
+      <window_info anchor="bottom" id="Run" order="4" weight="0.3329718" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
@@ -609,7 +609,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/cors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
+        <state relative-caret-position="570">
           <caret line="27" column="78" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
         </state>
       </provider>
