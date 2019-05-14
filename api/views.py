@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from django import views
-from api.serializer import CourseSerializers
+from api.serializer import CourseSerializers,RecordSerializers
 from api.froms import PhoneForms,Resphonse_msg,CodeForms
 
 
@@ -74,13 +74,20 @@ class phone(APIView):
         cook = Response(msg.__dict__)
         cook.set_cookie("code_status","1")
         return cook
-class record(APIView):
-    def post(self, request, *args, **kwargs):
-        print(request.data)
-        models.MeetPerson.objects.create(**request.data)
 
-        return HttpResponse("接受成功")
 
+class RecordViewSet(viewsets.ModelViewSet):
+
+    queryset = models.Meet.objects.all()
+    serializer_class = RecordSerializers
+# class record(APIView):
+#     def post(self, request, *args, **kwargs):
+#         print(request.data)
+#         models.MeetPerson.objects.create(**request.data)
+#
+#         return HttpResponse("接受成功")
+
+# class CodeAuth(APIView):
 
 
 class index(views.View):

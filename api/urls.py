@@ -11,5 +11,12 @@ urlpatterns = [
         'delete': 'destroy'
     }), name="course_detail"),
     url(r"phone/$", views.phone.as_view()),
-    url(r"record/$", views.record.as_view()),
+    # url(r"record/$", views.record.as_view()),
+    url(r"record/$", views.RecordViewSet.as_view({"get": "list", "post": "create"}),name="record_list"),
+    url(r'record/(?P<pk>\d+)$', views.RecordViewSet.as_view({
+        'get': 'retrieve',
+        'put': 'update',
+        'patch': 'partial_update',
+        'delete': 'destroy'
+        }), name="record_detail"),
 ]

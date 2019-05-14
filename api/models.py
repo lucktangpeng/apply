@@ -24,3 +24,10 @@ class MeetPerson(models.Model):
 class Phone_code(models.Model):
     phone = models.CharField(max_length=11)
     code = models.CharField(max_length=10)
+
+class Meet(models.Model):
+    course = models.ForeignKey(to=Course,on_delete=models.CASCADE)
+    agent_id = models.CharField(max_length=30,verbose_name="代理商代号")
+    company = models.CharField(max_length=30, verbose_name="培训人名称")
+    phone = models.CharField(max_length=30, verbose_name="手机号")
+    area = models.CharField(max_length=30, verbose_name="区域")
