@@ -18,13 +18,39 @@ from yunpian_python_sdk.ypclient import YunpianClient
 from api import models
 # Create your views here.
 from rest_framework import viewsets
-from rest_framework import mixins
-from rest_framework import generics
-
+from django.db.utils import IntegrityError
 class CourseViewSet(viewsets.ModelViewSet):
     timer = time.time()
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializers
+    def create(self, request, *args, **kwargs):
+        msg = Resphonse_msg()
+        try:
+            request.data.pop("sum_val")
+
+            if request.data["end_time"] < request.data["start_time"]:
+                msg.status = False
+                msg.error = {"end_time":"结束时间在开始时间之前"}
+                return Response(msg.__dict__)
+            start_obj = models.Course.objects.filter(meeting_room=request.data["meeting_room"],start_time__lte=request.data["start_time"],end_time__gte=request.data["start_time"])
+            end_obj = models.Course.objects.filter(meeting_room=request.data["meeting_room"],start_time__lte=request.data["end_time"],end_time__gte=request.data["end_time"])
+
+            if start_obj:
+                msg.status = False
+                msg.error = {"start_time":"此会议室此时间段内有其他议程，请重新选择开始时间"}
+                return Response(msg.__dict__)
+            if end_obj:
+                msg.status = False
+                msg.error = {"end_time":"此会议室此时间段内有其他议程，请重新选择结束时间"}
+                return Response(msg.__dict__)
+            models.Course.objects.create(**request.data)
+        except IntegrityError as e:
+            msg.status = False
+            msg.error = {"course_code":"课程ID已经存在"}
+        except Exception as e:
+            msg.status = False
+            msg.error = "系统内部错误"
+        return Response(msg.__dict__)
 
 class phone(APIView):
     def post(self, request, *args, **kwargs):
@@ -42,12 +68,12 @@ class phone(APIView):
                 return Response(msg.__dict__)
             else:
                 # 手机短信发送
-                pass
-                # clnt = YunpianClient("e8c2bea168255f72a413f04c2f6393d3")
-                # # 次字符串在账号后台可以得到
-                # param = {YC.MOBILE: pass_values["phone"], YC.TEXT: "【天心软件】您的验证码是%s"%(ran_str)}
-                # r = clnt.sms().single_send(param)
-                # print(msg.__dict__)
+
+                clnt = YunpianClient("e8c2bea168255f72a413f04c2f6393d3")
+                # 次字符串在账号后台可以得到
+                param = {YC.MOBILE: pass_values["phone"], YC.TEXT: "【天心软件】您的验证码是%s"%(ran_str)}
+                r = clnt.sms().single_send(param)
+                print(msg.__dict__)
         else:
             msg.status = False
             msg.error = pho.errors
@@ -80,6 +106,12 @@ class RecordViewSet(viewsets.ModelViewSet):
 
     queryset = models.Meet.objects.all()
     serializer_class = RecordSerializers
+    def create(self, request, *args, **kwargs):
+        msg = Resphonse_msg()
+        obj = models.Meet.objects.create(**request.data)
+        msg.data = "创建成功"
+        # obj.authors.add(*authors)
+        return Response(msg.__dict__)
 # class record(APIView):
 #     def post(self, request, *args, **kwargs):
 #         print(request.data)
@@ -92,4 +124,43 @@ class RecordViewSet(viewsets.ModelViewSet):
 
 class index(views.View):
     def get(self,request):
-        return render(request,"tables.html")
+        return render(request,"test.html")
+from django.db.models import Max,Avg,F,Q,Sum
+class Sum_view(APIView):
+    def get(self,request,pk):
+        msg = Resphonse_msg()
+        obj = models.Meet.objects.filter(course_id=pk).count()
+        msg.data = obj
+        return Response(msg.__dict__)
+
+from django.db.models import Q
+class Many_about(APIView):
+    def post(self,request):
+        msg = Resphonse_msg()
+        # val = request.data
+        print(request.data)
+        con = Q()
+        con.connector = "AND"
+        for k,v in request.data.items():
+            print(v)
+            con.children.append(("course__"+k,v))
+        obj = models.Meet.objects.filter(con).values()
+        msg.data = obj
+        return Response(msg.__dict__)
+import time
+import datetime
+class time_restrict(APIView):
+    def get(self,request):
+        times = "2019-05-15"
+        small_time = "09:45:00"
+        date = times+small_time
+        tim = datetime.datetime.now()
+        # this_date = datetime.datetime.strptime(str(date),'%Y-%m-%d')
+        # tis = time.mktime(datetime.datetime.now().timetuple())
+        # print(tis)
+        obj = models.Course.objects.filter(id=2)
+        obj.meet_set.all()
+        print(obj.meet__set.all())
+        # print(this_date)
+        # # TIMESTAMP
+        return Response("...")

@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from api import models
 class CourseSerializers(serializers.ModelSerializer):
+    start_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    end_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    sum_val = serializers.CharField(source="meet_set.all.count")
     class Meta:
         model=models.Course
         fields= "__all__"

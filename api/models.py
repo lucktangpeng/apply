@@ -4,10 +4,10 @@ from django.db import models
 
 
 class Course(models.Model):
-    course_code = models.CharField(max_length=20, verbose_name="课程id")
+    course_code = models.CharField(max_length=20, verbose_name="课程id",unique=True)
     course_name = models.CharField(max_length=20,verbose_name="课程名称")
-    time = models.DateField(verbose_name="课程天数")
-    small_time = models.TimeField(verbose_name="课程小时")
+    start_time = models.DateTimeField(verbose_name="开始时间")
+    end_time = models.DateTimeField(verbose_name="结束时间")
     lecturer = models.CharField(max_length=20,verbose_name="讲师")
     meeting_room = models.CharField(max_length=20,verbose_name="会议室号")
     meeting_room_pwd = models.CharField(max_length=20,verbose_name="会议室密码")

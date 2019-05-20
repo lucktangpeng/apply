@@ -19,4 +19,7 @@ urlpatterns = [
         'patch': 'partial_update',
         'delete': 'destroy'
         }), name="record_detail"),
+    url(r'sum/(?P<pk>\d+)$', views.Sum_view.as_view()),
+    url(r'many_about/$', views.Many_about.as_view()),
+    url(r'time_restrict/$', views.time_restrict.as_view())
 ]
